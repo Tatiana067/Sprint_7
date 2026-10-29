@@ -3,7 +3,7 @@ import requests
 import allure
 
 from url import Url
-from data import generate_random_string
+from helpers import generate_random_string
 
 @allure.epic('Регистрация курьеров')
 class TestCreateCourier:

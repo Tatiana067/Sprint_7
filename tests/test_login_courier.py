@@ -1,21 +1,19 @@
 import requests
 import allure
 
-from data import generate_random_string
+from helpers import generate_random_string
+from data import EXISTING_LOGIN, EXISTING_PASSWORD
 from url import Url
 
-@allure.epic("Авторизация курьеров")
+@allure.epic('Авторизация курьеров')
 class TestLoginCourier:
-    
-    EXISTING_LOGIN = 'superman'
-    EXISTING_PASSWORD = 'password2026'
 
     @allure.title('Успешная авторизация курьера')
     def test_success_login_courier(self):
         with allure.step('Подготовить валидные данные для входа'):
             payload = {
-                "login": self.EXISTING_LOGIN, 
-                "password": self.EXISTING_PASSWORD
+                "login": EXISTING_LOGIN, 
+                "password": EXISTING_PASSWORD
             }
 
         with allure.step('Отправить POST-запрос на авторизацию'):
@@ -33,8 +31,8 @@ class TestLoginCourier:
     def test_login_with_incorrect_password(self):
         with allure.step('Подготовить данные с неверным паролем'):
             payload = {
-                "login": self.EXISTING_LOGIN, 
-                "password": self.EXISTING_PASSWORD + "_wrong"
+                "login": EXISTING_LOGIN, 
+                "password": EXISTING_PASSWORD + "_wrong"
             }
 
         with allure.step('Отправить POST-запрос на авторизацию'):
@@ -44,15 +42,15 @@ class TestLoginCourier:
         with allure.step('Проверить код ошибки 404'):
             assert response.status_code == 404
             
-        with allure.step("Проверить сообщение, что учетная запись не найдена"):
+        with allure.step('Проверить сообщение, что учетная запись не найдена'):
             assert 'Учетная запись не найдена' in response.json()["message"]
 
     @allure.title('Авторизация с неправильным логином')
     def test_login_with_incorrect_login(self):
         with allure.step('Подготовить данные с неверным логином'):
             payload = {
-                "login": self.EXISTING_LOGIN + "_wrong", 
-                "password": self.EXISTING_PASSWORD
+                "login": EXISTING_LOGIN + "_wrong", 
+                "password": EXISTING_PASSWORD
             }
 
         with allure.step('Отправить POST-запрос на авторизацию'):
@@ -87,7 +85,7 @@ class TestLoginCourier:
     def test_login_without_login_returns_error(self):
         with allure.step('Подготовить тело запроса без ключа login'):
             payload = {
-                "password": self.EXISTING_PASSWORD
+                "password": EXISTING_PASSWORD
             }
 
         with allure.step('Отправить POST-запрос без логина'):
@@ -104,7 +102,7 @@ class TestLoginCourier:
     def test_login_without_password_returns_error(self):
         with allure.step('Подготовить тело запроса без ключа password'):
             payload = {
-                "login": self.EXISTING_LOGIN
+                "login": EXISTING_LOGIN
             }
 
         with allure.step('Отправить POST-запрос без пароля'):

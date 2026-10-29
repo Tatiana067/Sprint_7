@@ -2,7 +2,7 @@ import requests
 import pytest
 import allure
 
-from data import register_new_courier_and_return_login_password
+from helpers import register_new_courier_and_return_login_password
 from url import Url
 
 @allure.epic('Регистрация курьеров')
